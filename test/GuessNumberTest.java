@@ -1,57 +1,46 @@
 import guessNumber.GuessNumber;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 import static junit.framework.Assert.assertEquals;
 
+@RunWith(Parameterized.class)
 public class GuessNumberTest {
 
-    @Test
-    public void should_return_4a0b_given_all_digits_is_correct(){
-        GuessNumber guessNumber = new GuessNumber("1234");
-        String result = guessNumber.validate("1234");
-        assertEquals("4a0b", result);
+    private String userInput;
+    private String expected;
+    private String serverNumber;
+
+    public GuessNumberTest(String serverNumber, String userInput, String expected) {
+        this.serverNumber = serverNumber;
+        this.userInput = userInput;
+        this.expected = expected;
+    }
+
+    @Parameterized.Parameters
+    public static Collection fixtures(){
+        Object[][] data = new Object[][]{
+                {"1234", "1234", "4a0b"},
+                {"1234", "1235", "3a0b"},
+                {"1234", "1256", "2a0b"},
+                {"1234", "1246", "2a1b"},
+                {"1234", "1243", "2a2b"},
+                {"1234", "5673", "0a1b"},
+                {"1234", "5678", "0a0b"}
+        };
+
+        return Arrays.asList(data);
+                
     }
 
     @Test
-    public void should_return_3a0b_given_partial_digits_are_correct(){
-        GuessNumber guessNumber = new GuessNumber("1234");
-        String result = guessNumber.validate("1235");
-        assertEquals("3a0b", result);
+    public void should_validate_input(){
+        GuessNumber guessNumber = new GuessNumber(serverNumber);
+        String result = guessNumber.validate(userInput);
+        assertEquals(expected, result);
     }
-
-    @Test
-    public void should_return_2a0b_given_partial_digits_are_correct(){
-        GuessNumber guessNumber = new GuessNumber("1234");
-        String result = guessNumber.validate("1256");
-        assertEquals("2a0b", result);
-    }
-
-    @Test
-    public void should_return_2a1b_given_partial_digits_are_correct(){
-        GuessNumber guessNumber = new GuessNumber("1234");
-        String result = guessNumber.validate("1246");
-        assertEquals("2a1b", result);
-    }
-
-    @Test
-    public void should_return_2a2b_given_partial_digits_are_correct(){
-        GuessNumber guessNumber = new GuessNumber("1234");
-        String result = guessNumber.validate("1243");
-        assertEquals("2a2b", result);
-    }
-
-    @Test
-    public void should_return_0a2b_given_partial_digits_are_correct(){
-        GuessNumber guessNumber = new GuessNumber("1234");
-        String result = guessNumber.validate("6743");
-        assertEquals("0a2b", result);
-    }
-
-    @Test
-    public void should_return_0a0b_given_partial_digits_are_correct(){
-        GuessNumber guessNumber = new GuessNumber("1234");
-        String result = guessNumber.validate("5678");
-        assertEquals("0a0b", result);
-    }
-
 }
