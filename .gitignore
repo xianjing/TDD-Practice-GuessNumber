@@ -6,3 +6,8 @@
 *.ear
 *.DS_Store
 *.iws
+.gradle
+build/
+*.idea
+*.iws
+*.ipr

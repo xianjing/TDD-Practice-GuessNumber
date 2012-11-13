@@ -1,7 +1,5 @@
-猜数字游戏
+猜数字游戏需求
 ===========
-
-##需求
 * 当玩家输入四个不重复的数字，游戏服务器给出结果，告诉猜对与否。
 
 ###结果：
@@ -16,3 +14,14 @@
 ###参考
 * http://zh.wikipedia.org/zh/%E7%8C%9C%E6%95%B0%E5%AD%97
 * http://en.wikipedia.org/wiki/Bulls_and_cows
+
+项目构建[可选]:
+1. Clone the project repository using git.
+2. Install HomeBrew
+3. Run "brew install gradle"
+4. Run "gradle test" to run all tests.
+
+IntelliJ IDEA Setup
+-------------------
+1. Run "gradle idea" to create the project files
+2. Open the .ipr file

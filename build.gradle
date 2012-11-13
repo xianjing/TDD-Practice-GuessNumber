@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'jetty'
+apply plugin: 'war'
+apply plugin: 'idea'
+apply plugin: 'checkstyle'
+
+// Our code should be based on Java 6
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+sourceSets {
+
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.guava:guava:13.0.1'
+    testCompile 'junit:junit:4.10'
+}
