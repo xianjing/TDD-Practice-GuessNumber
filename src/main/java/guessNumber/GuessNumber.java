@@ -6,8 +6,8 @@ public class GuessNumber {
 
     private int[] randomNumber;
 
-    public GuessNumber(INumberGenerator generator) {
-        this.randomNumber = generator.generate();
+    public GuessNumber(int[] randomNumber) {
+        this.randomNumber = randomNumber;
     }
 
     public String validate(String userInput) {

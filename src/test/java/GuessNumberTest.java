@@ -1,5 +1,4 @@
 import guessNumber.GuessNumber;
-import guessNumber.INumberGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -14,10 +13,12 @@ public class GuessNumberTest {
 
     private String userInput;
     private String expected;
+    private final int[] randomNumber;
 
     public GuessNumberTest(String userInput, String expected) {
         this.userInput = userInput;
         this.expected = expected;
+        randomNumber = new int[]{1, 2, 3, 4};
     }
 
     @Parameterized.Parameters
@@ -38,16 +39,9 @@ public class GuessNumberTest {
 
     @Test
     public void should_validate_input(){
-        FakeNumberGenerator generator = new FakeNumberGenerator();
-        GuessNumber guessNumber = new GuessNumber(generator);
+        GuessNumber guessNumber = new GuessNumber(randomNumber);
         String result = guessNumber.validate(userInput);
         assertEquals(expected, result);
     }
 
-    class FakeNumberGenerator implements INumberGenerator{
-        @Override
-        public int[] generate() {
-            return new int[]{1,2,3,4};
-        }
-    }
 }
