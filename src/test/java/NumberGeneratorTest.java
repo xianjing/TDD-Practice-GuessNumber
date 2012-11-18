@@ -1,5 +1,7 @@
-import guessNumber.NumberGenerator;
+import guessNumber.generator.RandomNumberGenerator;
+import guessNumber.model.UniqueNumber;
 import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
@@ -10,37 +12,43 @@ public class NumberGeneratorTest {
 
     @Test
     public void should_return_four_numbers(){
-        NumberGenerator numberGenerator = new NumberGenerator();
-        int[] number = numberGenerator.generate();
-        assertEquals(4, number.length);
+        RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
+        UniqueNumber number = randomNumberGenerator.generate1();
+        assertEquals(4, number.size());
     }
 
     @Test
     public void should_return_four_unique_number(){
-        NumberGenerator numberGenerator = new NumberGenerator();
-        int[] number = numberGenerator.generate();
-        for(int i = 0; i < number.length; i++) {
-            int key = number[i];
-            int index = Arrays.binarySearch(number,i+1, number.length, key);
+        RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
+        UniqueNumber number = randomNumberGenerator.generate1();
+        for(int i = 0; i < number.size(); i++) {
+            int key = (Integer)number.get(i);
+            int index = Arrays.binarySearch(number.toArray(), i + 1, number.size(), key);
             assertTrue(index < 0);
         }
     }
 
     @Test
     public void should_match_frequency_equality(){
-        NumberGenerator numberGenerator = new NumberGenerator();
-        ArrayList<int[]> numbers = new ArrayList<int[]>();
-        int tries = 2;
+        int tries = 50;
+        ArrayList<UniqueNumber> numbers = createBatchUniqueNumbers(tries);
+        Random random = new Random();
+        int size = numbers.size();
+        for (int i = 0; i < size; i++){
+            UniqueNumber oneNumber = numbers.get(i);
+            UniqueNumber anotherNumber = numbers.get(getRandomIndex(i, size, random));
+            assertFalse(oneNumber.equals(anotherNumber));
+        }
+    }
+
+    private ArrayList<UniqueNumber> createBatchUniqueNumbers(int tries) {
+        RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
+        ArrayList<UniqueNumber> numbers = new ArrayList<UniqueNumber>();
         for(int i = 0; i < tries; i++){
-            int[] result = numberGenerator.generate();
+            UniqueNumber result = randomNumberGenerator.generate1();
             numbers.add(result);
         }
-        Random random = new Random();
-        for (int i = 0; i < tries; i++){
-            int[] oneNumber = numbers.get(i);
-            int[] anotherNumber = numbers.get(getRandomIndex(i, tries, random));
-            assertTrue(notEqual(oneNumber, anotherNumber));
-        }
+        return numbers;
     }
 
     private int getRandomIndex(int currentIndex, int size, Random random) {
@@ -50,14 +58,5 @@ public class NumberGeneratorTest {
             result = random.nextInt(size);
         }
         return result;
-    }
-
-    private boolean notEqual(int[] firstNumber, int[] secondNumber) {
-        for (int i =0; i < firstNumber.length; i++){
-            if(firstNumber[i] != secondNumber[i]){
-                return true;
-            }
-        }
-        return false;
     }
 }
