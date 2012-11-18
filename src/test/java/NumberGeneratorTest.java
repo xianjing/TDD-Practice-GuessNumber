@@ -13,14 +13,14 @@ public class NumberGeneratorTest {
     @Test
     public void should_return_four_numbers(){
         RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
-        UniqueNumber number = randomNumberGenerator.generate1();
+        UniqueNumber number = randomNumberGenerator.generate();
         assertEquals(4, number.size());
     }
 
     @Test
     public void should_return_four_unique_number(){
         RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
-        UniqueNumber number = randomNumberGenerator.generate1();
+        UniqueNumber number = randomNumberGenerator.generate();
         for(int i = 0; i < number.size(); i++) {
             int key = (Integer)number.get(i);
             int index = Arrays.binarySearch(number.toArray(), i + 1, number.size(), key);
@@ -45,7 +45,7 @@ public class NumberGeneratorTest {
         RandomNumberGenerator randomNumberGenerator = new RandomNumberGenerator();
         ArrayList<UniqueNumber> numbers = new ArrayList<UniqueNumber>();
         for(int i = 0; i < tries; i++){
-            UniqueNumber result = randomNumberGenerator.generate1();
+            UniqueNumber result = randomNumberGenerator.generate();
             numbers.add(result);
         }
         return numbers;

@@ -1,6 +1,6 @@
 package guessNumber.model;
 
-import guessNumber.exception.InvalidInputException;
+import guessNumber.guessor.GuessResult;
 
 import java.util.ArrayList;
 
@@ -24,15 +24,17 @@ public class UniqueNumber extends ArrayList {
         }
     }
 
-    public static UniqueNumber toUniqueNumber(String input){
-        UniqueNumber number = new UniqueNumber(4);
-        char[] chars = input.toCharArray();
-        for(int i = 0; i < chars.length; i++){
-            if(!number.add(chars[i])){
-                throw new InvalidInputException();
+    public GuessResult verify(UniqueNumber anotherNumber) {
+        int numberOfA = 0, numberOfB = 0;
+        for(int index = 0; index < this.size(); index++){
+            int actualPosition = anotherNumber.indexOf(get(index));
+            if(actualPosition == index) {
+                numberOfA++;
+            }
+            if(actualPosition >= 0 && actualPosition != index) {
+                numberOfB++;
             }
         }
-        return number;
-
+        return new GuessResult(numberOfA, numberOfB);
     }
 }

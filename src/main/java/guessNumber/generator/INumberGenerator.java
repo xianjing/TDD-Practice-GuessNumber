@@ -3,5 +3,6 @@ package guessNumber.generator;
 import guessNumber.model.UniqueNumber;
 
 public interface INumberGenerator {
-    UniqueNumber generate1();
+    public int ALLOWED_DIGITS = 4;
+    UniqueNumber generate();
 }

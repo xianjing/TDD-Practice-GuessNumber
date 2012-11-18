@@ -1,52 +1,72 @@
-import guessNumber.guessor.Guesser;
+import guessNumber.Guesser;
+import guessNumber.generator.INumberGenerator;
+import guessNumber.guessor.GuessResult;
 import guessNumber.model.UniqueNumber;
+import guessNumber.exception.InvalidInputException;
+import guessNumber.exception.MaximumTriesExceedException;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
-import java.util.Arrays;
-import java.util.Collection;
 
 import static junit.framework.Assert.assertEquals;
 
-@RunWith(Parameterized.class)
 public class GuesserTest {
 
-    private UniqueNumber userInput;
-    private String expected;
-    private final UniqueNumber randomNumber;
+    private Guesser guesser;
 
-    public GuesserTest(UniqueNumber userInput, String expected) {
-        this.userInput = userInput;
-        this.expected = expected;
-        randomNumber = unique(new int[]{1, 2, 3, 4});
+    @Before
+    public void setup(){
+        INumberGenerator numberGenerator = new FakeNumberGenerator();
+        guesser = new Guesser(numberGenerator);
     }
-
-    @Parameterized.Parameters
-    public static Collection fixtures(){
-        Object[][] data = new Object[][]{
-                {unique(new int[]{1,2,3,4}), "4a0b"},
-                {unique(new int[]{1,2,3,5}), "3a0b"},
-                {unique(new int[]{1,2,5,6}), "2a0b"},
-                {unique(new int[]{1,2,4,6}), "2a1b"},
-                {unique(new int[]{1,2,4,3}), "2a2b"},
-                {unique(new int[]{5,6,7,3}), "0a1b"},
-                {unique(new int[]{5,6,7,8}), "0a0b"}
-        };
-
-        return Arrays.asList(data);
-                
-    }
-    
 
     @Test
-    public void should_validate_input(){
-        Guesser guesser = new Guesser(randomNumber);
-        String result = guesser.verify(userInput);
-        assertEquals(expected, result);
+    public void should_return_you_win_given_correct_input(){
+        GuessResult result = guesser.validate("1234");
+        assertEquals("You win", result.toString());
     }
-    
-    private static UniqueNumber unique(int[] input){
-        return new UniqueNumberBuilder().withNumbers(input).build();
+
+    @Test
+    public void should_fail_and_return_0a0b(){
+        String result = guesser.validate("5678").toString();
+        assertEquals("0a0b", result);
+    }
+
+    @Test
+    public void should_print_you_win_given_second_try_succeed(){
+        String result = guesser.validate("5678").toString();
+        assertEquals("0a0b", result);
+        result = guesser.validate("1234").toString();
+        assertEquals("You win", result);
+    }
+
+    @Test(expected = MaximumTriesExceedException.class)
+    public void should_print_game_over_and_exit_given_six_tries_failed(){
+        for(int i = 0; i < 6; i++){
+            guesser.validate("5678");
+        }
+    }
+
+    @Test(expected = InvalidInputException.class)
+    public void should_fail_given_input_more_than_four(){
+        guesser.validate("ABCDEFG");
+        guesser.validate("123456");
+    }
+
+    @Test(expected = InvalidInputException.class)
+    public void should_fail_given_input_not_number(){
+        guesser.validate("ABCD");
+    }
+
+    @Test(expected = InvalidInputException.class)
+    public void should_fail_given_input_number_with_duplication(){
+        guesser.validate("1123");
+    }
+
+    class FakeNumberGenerator implements INumberGenerator {
+        @Override
+        public UniqueNumber generate() {
+            return new UniqueNumberBuilder().withNumbers(new int[]{1,2,3,4}).build();
+        }
     }
 }
+

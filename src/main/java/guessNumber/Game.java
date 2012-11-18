@@ -3,16 +3,17 @@ package guessNumber;
 import guessNumber.exception.MaximumTriesExceedException;
 import guessNumber.generator.INumberGenerator;
 import guessNumber.generator.RandomNumberGenerator;
+import guessNumber.guessor.GuessResult;
 
 import java.util.Scanner;
 
 public class Game {
 
-    private static GuessNumberApp guessNumberApp;
+    private static Guesser guesser;
 
     public Game() {
         INumberGenerator numberGenerator = new RandomNumberGenerator();
-        guessNumberApp = new GuessNumberApp(numberGenerator);
+        guesser = new Guesser(numberGenerator);
     }
 
     public static void main(String[] args){
@@ -20,12 +21,11 @@ public class Game {
         while(scanner.hasNext()) {
             String input = scanner.nextLine();
             try{
-                String result = guessNumberApp.accept(input);
-                if(result.equalsIgnoreCase("4a0b")){
-                    System.out.println("You Win");
+                GuessResult result = guesser.validate(input);
+                System.out.println(result.toString());
+                if(result.isCorrect()){
                     System.exit(0);
                 }
-                System.out.println(result);
             }catch (MaximumTriesExceedException exception){
                 System.out.println("Game Over");
                 System.exit(0);
