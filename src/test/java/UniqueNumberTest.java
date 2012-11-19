@@ -41,5 +41,4 @@ public class UniqueNumberTest {
         boolean result = uniqueNumber.add(5);
         assertFalse(result);
     }
-
 }

@@ -1,4 +1,4 @@
-package guessNumber.guessor;
+package guessNumber;
 
 import guessNumber.generator.INumberGenerator;
 
@@ -9,14 +9,6 @@ public class GuessResult {
     public GuessResult(int numberOfA, int numberOfB) {
         this.numberOfA = numberOfA;
         this.numberOfB = numberOfB;
-    }
-
-    public int getNumberOfA() {
-        return numberOfA;
-    }
-
-    public int getNumberOfB() {
-        return numberOfB;
     }
 
     public boolean isCorrect(){
@@ -35,8 +27,8 @@ public class GuessResult {
     public boolean equals(Object o) {
         GuessResult that = (GuessResult) o;
 
-        if(this.getNumberOfA() == that.getNumberOfA()
-                && this.getNumberOfB() == that.getNumberOfB()){
+        if(this.numberOfA == that.numberOfA
+                && this.numberOfB == that.numberOfB){
             return true;
         }
         return false;

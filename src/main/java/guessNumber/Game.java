@@ -3,26 +3,34 @@ package guessNumber;
 import guessNumber.exception.MaximumTriesExceedException;
 import guessNumber.generator.INumberGenerator;
 import guessNumber.generator.RandomNumberGenerator;
-import guessNumber.guessor.GuessResult;
 
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.Scanner;
 
 public class Game {
 
     private static Guesser guesser;
+    private final InputStream inputStream;
+    private final PrintStream out;
 
-    public Game() {
-        INumberGenerator numberGenerator = new RandomNumberGenerator();
+    public Game(INumberGenerator numberGenerator, InputStream in, PrintStream out) {
         guesser = new Guesser(numberGenerator);
+        inputStream = in;
+        this.out = out;
     }
 
     public static void main(String[] args){
-        Scanner scanner = new Scanner(System.in);
+        new Game(new RandomNumberGenerator(), System.in, System.out).run();
+    }
+
+    public void run() {
+        Scanner scanner = new Scanner(inputStream);
         while(scanner.hasNext()) {
             String input = scanner.nextLine();
             try{
                 GuessResult result = guesser.validate(input);
-                System.out.println(result.toString());
+                out.println(result.toString());
                 if(result.isCorrect()){
                     System.exit(0);
                 }
@@ -32,4 +40,6 @@ public class Game {
             }
         }
     }
+
+
 }

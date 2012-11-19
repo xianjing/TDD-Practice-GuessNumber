@@ -1,4 +1,4 @@
-import guessNumber.guessor.GuessResult;
+import guessNumber.GuessResult;
 import guessNumber.model.UniqueNumber;
 import org.junit.Test;
 import org.junit.runner.RunWith;

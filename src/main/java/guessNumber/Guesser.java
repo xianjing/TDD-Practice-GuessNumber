@@ -3,7 +3,6 @@ package guessNumber;
 import guessNumber.exception.InvalidInputException;
 import guessNumber.exception.MaximumTriesExceedException;
 import guessNumber.generator.INumberGenerator;
-import guessNumber.guessor.GuessResult;
 import guessNumber.model.UniqueNumber;
 
 public class Guesser {

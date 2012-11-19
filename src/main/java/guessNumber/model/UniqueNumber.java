@@ -1,6 +1,6 @@
 package guessNumber.model;
 
-import guessNumber.guessor.GuessResult;
+import guessNumber.GuessResult;
 
 import java.util.ArrayList;
 

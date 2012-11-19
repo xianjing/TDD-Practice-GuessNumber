@@ -1,6 +1,6 @@
+import guessNumber.GuessResult;
 import guessNumber.Guesser;
 import guessNumber.generator.INumberGenerator;
-import guessNumber.guessor.GuessResult;
 import guessNumber.model.UniqueNumber;
 import guessNumber.exception.InvalidInputException;
 import guessNumber.exception.MaximumTriesExceedException;
